@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yc.communitys.dao.DiscussPostMapper">
+    <!-- 1. 通过 xml 实现sql -->
+
+    <!-- 复用查询字段 -->
+    <sql id="selectFields">
+        id, user_id, title, content, type, status, create_time, comment_count, score
+    </sql>
+
+    <!-- 复用插入字段 -->
+    <sql id="insertFields">
+        user_id, title, content, type, status, create_time, comment_count, score
+    </sql>
+
+    <!--   分页查询帖子(userId可以传入也可以不传入，传入userId肯定不为0，则查寻某个特定用户的帖子；
+                不传入则不执行if中的sql即查询所有用户)
+                查询的帖子(status != 2 表示：未拉黑)
+        -->
+    <select id="selectDiscussPosts" resultType="com.yc.communitys.entity.DiscussPost" >
+        select <include refid="selectFields"></include>
+        from discuss_post
+        where status != 2
+        <!-- test可以判断字段是否是查询特定的帖子，userId不为0则动态的拼后面的sql语句 -->
+        <if test="userId!=0">
+            and user_id = #{userId}
+        </if>
+        <!--  排序：type=1表示置顶帖子, 最新创建的排到前面      -->
+        order by type desc, create_time desc
+        <!--   分页查询  offset = (current - 1) * limit  即 当前页的起始行 = (当前页-1)*每页显示上限记录数  -->
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--  查询有多少条帖子(未拉黑)  -->
+    <select id="selectDiscussPostRows" resultType="int">
+        select count(id)
+        from discuss_post
+        where status != 2
+        <if test="userId!=0">
+            and user_id = #{userId}
+        </if>
+    </select>
+
+</mapper>

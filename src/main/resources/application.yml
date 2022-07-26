@@ -1,0 +1,38 @@
+server:
+  port: 8080
+  # 应用的上下文路径，也可以称为项目路径，是构成url地址的一部分。
+  #server.servlet.context-path不配置时，默认为/，如：localhost：8080/xxxxxx
+  #当server.servlet.context-path有配置时，比如/demo，此时的访问方式为localhost：8080/demo/xxxxxx
+  servlet:
+    context-path: /communitys
+
+spring:
+  thymeleaf:
+    cache: false
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/community?characterEncoding=utf-8&useSSL=false&serverTimezone=Hongkong
+    username: root
+    password: yc12138**
+  main:
+    allow-bean-definition-overriding: true
+
+#如果xml文件跟mapper在同一个目录下，则application.yml中不需要配置下面这个。
+#mybatis.mapper-locations=classpath:mapper/*.xml
+mybatis:
+  type-aliases-package: com.yc.communitys.entity
+  configuration:
+    # 自动生成id: useGeneratedKeys=true
+    use-generated-keys: true
+    # 设置下划线和首字母大写驼峰匹配
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    org.springframework.data.convert.CustomConversions: ERROR
+
+community:
+  path:
+    domain: http://localhost:8080
+    upload: d:/codes/work/data/upload
