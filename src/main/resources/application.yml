@@ -17,6 +17,18 @@ spring:
     password: yc12138**
   main:
     allow-bean-definition-overriding: true
+  # 邮箱设置
+  mail:
+    host: smtp.sina.com
+    port: 465
+    username: yc_lil@sina.com
+    password: 26f00b67de92ef69
+    protocol: smtps
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
 
 #如果xml文件跟mapper在同一个目录下，则application.yml中不需要配置下面这个。
 #mybatis.mapper-locations=classpath:mapper/*.xml
@@ -32,7 +44,3 @@ logging:
   level:
     org.springframework.data.convert.CustomConversions: ERROR
 
-community:
-  path:
-    domain: http://localhost:8080
-    upload: d:/codes/work/data/upload
