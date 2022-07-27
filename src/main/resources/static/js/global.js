@@ -1,5 +1,5 @@
 // 全局变量
-var CONTEXT_PATH = "/community";
+var CONTEXT_PATH = "/communitys";
 
 window.alert = function(message) {
 	if(!$(".alert-box").length) {

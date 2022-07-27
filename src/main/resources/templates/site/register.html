@@ -1,5 +1,6 @@
 <!doctype html >
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -29,8 +30,9 @@
                                 th:text="${usernameMsg}" 并显示 错误信息.
                                 若注册成功, 则 th:value="${user != null ? user.username : ''}", 显示用户名.
                         -->
-                        <input type="text" th:class="|form-control ${usernameMsg} != null ? is-invalid : ''}|"
-                               th:value="${user != null ? user.username : ''}"
+                        <input type="text"
+                               th:class="|form-control ${usernameMsg != null?'is-invalid':''}|"
+                               th:value="${user!=null ? user.username:''}"
                                id="username" name="username" placeholder="请输入您的账号!" required>
                         <div class="invalid-feedback" th:text="${usernameMsg}">
                             该账号已存在!
@@ -40,7 +42,7 @@
                 <div class="form-group row mt-4">
                     <label for="password" class="col-sm-2 col-form-label text-right">密码:</label>
                     <div class="col-sm-10">
-                        <input type="password" th:class="|form-control ${passwordMsg} != null ? is-invalid : ''}|"
+                        <input type="password" th:class="|form-control ${passwordMsg!= null?'is-invalid' : ''}|"
                                th:value="${user != null ? user.password : ''}"
                                id="password" name="password" placeholder="请输入您的密码!" required>
                         <div class="invalid-feedback" th:text="${passwordMsg}">
@@ -62,8 +64,8 @@
                 <div class="form-group row">
                     <label for="email" class="col-sm-2 col-form-label text-right">邮箱:</label>
                     <div class="col-sm-10">
-                        <input type="email" th:class="|form-control ${emailMsg} != null ? is-invalid : ''}|"
-                               th:value="${user != null ? user.email : ''}"
+                        <input type="email" th:class="|form-control ${emailMsg != null?'is-invalid':''}|"
+                               th:value="${user!=null ? user.email : ''}"
                                id="email" name="email" placeholder="请输入您的邮箱!" required>
                         <div class="invalid-feedback" th:text="${emailMsg}">
                             该邮箱已注册!

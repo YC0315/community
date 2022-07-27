@@ -184,5 +184,6 @@
     <orderEntry type="library" name="Maven: org.elasticsearch.plugin:lang-mustache-client:7.9.3" level="project" />
     <orderEntry type="library" name="Maven: com.github.spullara.mustache.java:compiler:0.9.6" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.11.4" level="project" />
+    <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.18.20" level="project" />
   </component>
 </module>

@@ -25,7 +25,8 @@
                     <label for="username" class="col-sm-2 col-form-label text-right">账号:</label>
                     <div class="col-sm-10">
                         <!--   ${param.username} 从request中取值        -->
-                        <input type="text" th:class="|form-control ${usernameMsg}!=null ? is-invalid : ''|"
+                        <input type="text"
+                               th:class="|form-control ${usernameMsg!= null?'is-invalid':''}|"
                                th:value="${param.username}"
                                id="username" name="username" placeholder="请输入您的账号!" required>
                         <div class="invalid-feedback" th:text="${usernameMsg}">
@@ -37,7 +38,7 @@
                     <label for="password" class="col-sm-2 col-form-label text-right">密码:</label>
                     <div class="col-sm-10">
                         <input type="password"
-                               th:class="|form-control ${passwordMsg}!=null ? is-invalid : ''|"
+                               th:class="|form-control ${passwordMsg!=null ?'is-invalid':''}|"
                                th:value="${param.password}"
                                id="password" name="password" placeholder="请输入您的密码!" required>
                         <div class="invalid-feedback" th:text="${passwordMsg}">
@@ -48,15 +49,14 @@
                 <div class="form-group row mt-4">
                     <label for="verifycode" class="col-sm-2 col-form-label text-right">验证码:</label>
                     <div class="col-sm-6">
-                        <input type="text" th:class="|form-control ${codeMsg}!=null ? is-invalid : ''|"
+                        <input type="text" th:class="|form-control ${codeMsg!=null ?'is-invalid':''}|"
                                id="verifycode" name="code" placeholder="请输入验证码!">
                         <div class="invalid-feedback" th:text="${codeMsg}">
                             验证码不正确!
                         </div>
                     </div>
                     <div class="col-sm-4">
-                        <img th:src="@{/kaptcha}" id="kaptcha" style="width:100px;height:40px;"
-                             class="mr-2"/>
+                        <img th:src="@{/kaptcha}" id="kaptcha" style="width:100px;height:40px;" class="mr-2"/>
                         <a href="javascript:refresh_kaptcha();" class="font-size-12 align-bottom">刷新验证码</a>
                     </div>
                 </div>
