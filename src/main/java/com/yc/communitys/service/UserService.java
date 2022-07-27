@@ -236,5 +236,29 @@ public class UserService implements CommunityConstant {
         //return (LoginTicket) redisTemplate.opsForValue().get(redisKey);
     }
 
+    /**
+     * @description: 更新用户的头像，更新headerUrl
+     * @author: yangchao
+     * @date: 2022/7/27 16:36
+     * @param: [userId, headerUrl]
+     * @return: int
+     **/
+    public int updateHeader(int userId, String headerUrl) {
+        return userMapper.updateHeader(userId, headerUrl);
+        /*int rows = userMapper.updateHeader(userId, headerUrl);
+        clearCache(userId);
+        return rows;*/
+    }
+
+    /**
+     * @description: 修改密码
+     * @author: yangchao
+     * @date: 2022/7/27 17:04
+     * @param: [userId, password]
+     * @return: void
+     **/
+    public void updatePassword(int userId,String password){
+        userMapper.updatePassword(userId, password);
+    }
 
 }

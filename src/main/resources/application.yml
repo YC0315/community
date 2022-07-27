@@ -49,4 +49,6 @@ logging:
 communitys:
   path:
     domain: http://localhost:8081
+    # 设置上传资源的路径，比如用户头像
+    upload: E:/IDEA/IdeaProjects/upload
 
