@@ -1,6 +1,7 @@
 package com.yc.communitys.controller;
 
 
+import com.yc.communitys.annotation.LoginRequired;
 import com.yc.communitys.entity.User;
 import com.yc.communitys.service.UserService;
 import com.yc.communitys.util.CommunityConstant;
@@ -66,7 +67,7 @@ public class UserController implements CommunityConstant {
      * @param: [model]
      * @return: java.lang.String
      **/
-    //@LoginRequired
+    @LoginRequired
     @GetMapping("/setting")
     public String getSettingPage(Model model) {
         return "/site/setting";
@@ -79,7 +80,7 @@ public class UserController implements CommunityConstant {
      * @param: [headerImage, model]
      * @return: java.lang.String
      **/
-    //@LoginRequired
+    @LoginRequired
     @PostMapping("/upload")
     public String uploadHeader(MultipartFile headerImage, Model model) {
         // 判断有没有图片

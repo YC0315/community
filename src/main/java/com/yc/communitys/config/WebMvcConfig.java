@@ -1,6 +1,7 @@
 package com.yc.communitys.config;
 
 import com.yc.communitys.controller.interceptor.AlphaInterceptor;
+import com.yc.communitys.controller.interceptor.LoginRequiredInterceptor;
 import com.yc.communitys.controller.interceptor.LoginTicketInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -21,10 +22,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
     // 注入获取凭证和用户信息的拦截器
     @Autowired
     private LoginTicketInterceptor loginTicketInterceptor;
-/*
+
     @Autowired
     private LoginRequiredInterceptor loginRequiredInterceptor;
-
+/*
     @Autowired
     private MessageInterceptor messageInterceptor;*/
 
@@ -44,11 +45,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addInterceptor(loginTicketInterceptor)
                 .excludePathPatterns("/*/*.css", "/*/*.js", "/*/*.png", "/*/*.jpg", "/*/*.jpeg");
 
-//        // (不明确要拦截的路径)对于所有页面-需要登录
-//        registry
-//                .addInterceptor(loginRequiredInterceptor)
-//                .excludePathPatterns("/*/*.css", "/*/*.js", "/*/*.png", "/*/*.jpg", "/*/*.jpeg");
-//
+        // (不明确要拦截的路径)对于所有页面-需要登录,排除静态资源
+        registry
+                .addInterceptor(loginRequiredInterceptor)
+                .excludePathPatterns("/*/*.css", "/*/*.js", "/*/*.png", "/*/*.jpg", "/*/*.jpeg");
+
 //        // (不明确要拦截的路径)对于所有页面
 //        registry.addInterceptor(messageInterceptor)
 //                .excludePathPatterns("/*/*.css", "/*/*.js", "/*/*.png", "/*/*.jpg", "/*/*.jpeg");

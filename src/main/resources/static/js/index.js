@@ -11,7 +11,7 @@ function publish() {
 
     // 发送异步请求(POST)
     $.post(
-        CONTEXT_PATH + "/discuss/add/",
+        CONTEXT_PATH + "/discuss/add",
         {"title": title, "content": content},
         function (data) {
             console.log(data);

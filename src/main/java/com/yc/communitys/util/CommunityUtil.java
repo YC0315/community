@@ -36,6 +36,7 @@ public class CommunityUtil {
         return DigestUtils.md5DigestAsHex(key.getBytes());
     }
 
+    // 处理json字符串的工具
     /**
      * 获得JSON格式字符串
      * @param code 编号
@@ -43,6 +44,7 @@ public class CommunityUtil {
      * @param map 业务数据
      */
     public static String getJSONString(int code, String msg, Map<String, Object> map) {
+        // 封装成json对象
         JSONObject json = new JSONObject();
         json.put("code", code);
         json.put("msg", msg);
@@ -51,6 +53,7 @@ public class CommunityUtil {
                 json.put(key, map.get(key));
             }
         }
+        // 转换成json格式的字符串，返回给前端，方便解析，方便前后端交互
         return json.toJSONString();
     }
 
@@ -58,8 +61,8 @@ public class CommunityUtil {
      * 重载: 没有业务数据
      * 获得JSON格式字符串
      * @param code 编号
-     * @param msg 提示信息
-     * @param map 无业务数据
+     *      * @param msg 提示信息
+     *      * @param map 无业务数据
      */
     public static String getJSONString(int code, String msg) {
         return getJSONString(code, msg, null);

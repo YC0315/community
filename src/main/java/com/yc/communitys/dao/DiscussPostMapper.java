@@ -33,4 +33,46 @@ public interface DiscussPostMapper {
      * @return: int
      **/
     int selectDiscussPostRows(@Param("userId") int userId);
+
+    /**
+     * @description: 插入帖子
+     * @author: yangchao
+     * @date: 2022/7/28 16:16
+     * @param: [discussPost]
+     * @return: int
+     **/
+    int insertDiscussPost(DiscussPost discussPost);
+
+    /**
+     * @description: 帖子详情
+     * @author: yangchao
+     * @date: 2022/7/28 16:47
+     * @param: [id]
+     * @return: com.yc.communitys.entity.DiscussPost
+     **/
+    DiscussPost selectDiscussPostById(int id);
+
+    /**
+     * 更新帖子评论数量
+     */
+    int updateCommentCount(@Param("id") int id,
+                           @Param("commentCount") int commentCount);
+
+    /**
+     * 更新帖子类型 0：普通 1：置顶
+     */
+    int updateType(@Param("id") int id,
+                   @Param("type") int type);
+
+    /**
+     * 更新帖子状态 0：正常 1：精华 2：拉黑
+     */
+    int updateStatus(@Param("id") int id,
+                     @Param("status") int status);
+
+    /**
+     * 更新帖子分数
+     */
+    void updateScore(@Param("id") int id,
+                     @Param("score") double score);
 }

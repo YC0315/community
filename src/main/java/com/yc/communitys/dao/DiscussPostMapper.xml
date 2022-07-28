@@ -13,6 +13,7 @@
         user_id, title, content, type, status, create_time, comment_count, score
     </sql>
 
+
     <!--   分页查询帖子(userId可以传入也可以不传入，传入userId肯定不为0，则查寻某个特定用户的帖子；
                 不传入则不执行if中的sql即查询所有用户)
                 查询的帖子(status != 2 表示：未拉黑)
@@ -40,5 +41,33 @@
             and user_id = #{userId}
         </if>
     </select>
+
+    <insert id="insertDiscussPost" parameterType="DiscussPost" keyProperty="id">
+        insert into discuss_post (<include refid="insertFields"></include>)
+        values (#{userId}, #{title},#{content},#{type},#{status},#{createTime},#{commentCount},#{score})
+    </insert>
+
+    <!-- 帖子详情 -->
+    <select id="selectDiscussPostById" resultType="DiscussPost">
+        SELECT <include refid="selectFields"></include>
+        FROM discuss_post
+        WHERE id = #{id}
+    </select>
+
+    <update id="updateCommentCount">
+        UPDATE discuss_post SET comment_count = #{commentCount} WHERE id = #{id}
+    </update>
+
+    <update id="updateType">
+        UPDATE discuss_post SET type = #{type} WHERE id = #{id}
+    </update>
+
+    <update id="updateStatus">
+        UPDATE discuss_post SET status = #{status} WHERE id = #{id}
+    </update>
+
+    <update id="updateScore">
+        UPDATE discuss_post SET score = #{score} WHERE id = #{id}
+    </update>
 
 </mapper>
