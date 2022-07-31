@@ -30,6 +30,18 @@ spring:
         smtp:
           ssl:
             enable: true
+  # Redis配置
+  redis:
+    host: localhost
+    port: 6379
+    database: 0  # Redis启动后默认提供了16个数据库，默认进入第0号数据库
+  #kafka配置
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: test-consumer-group
+      enable-auto-commit: true
+      auto-commit-interval: 3000  # 3000ms自动提交一次
 
 #如果xml文件跟mapper在同一个目录下，则application.yml中不需要配置下面这个。
 #mybatis.mapper-locations=classpath:mapper/*.xml

@@ -83,4 +83,48 @@ public class DiscussPostService {
         return discussPostMapper.selectDiscussPostById(id);
     }
 
+    /**
+     * @description: 更新评论的数量
+     * @author: yangchao
+     * @date: 2022/7/29 16:48
+     * @param: [id, commentCount]
+     * @return: int
+     **/
+    public int updateCommentCount(int id, int commentCount) {
+        return discussPostMapper.updateCommentCount(id, commentCount);
+    }
+
+    /**
+     * 更新帖子类型
+     *
+     * @param id
+     * @param type
+     * @return
+     */
+    public int updateType(int id, int type) {
+        return discussPostMapper.updateType(id, type);
+    }
+
+    /**
+     * 更新帖子状态
+     *
+     * @param id
+     * @param status
+     * @return
+     */
+    public int updateStatus(int id, int status) {
+        return discussPostMapper.updateStatus(id, status);
+    }
+
+    /**
+     * 更新帖子分数
+     *
+     * @param id
+     * @param score
+     */
+    public void updateScore(int id, double score) {
+        discussPostMapper.updateScore(id, score);
+    }
+
+
 }

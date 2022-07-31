@@ -3,6 +3,7 @@ package com.yc.communitys.config;
 import com.yc.communitys.controller.interceptor.AlphaInterceptor;
 import com.yc.communitys.controller.interceptor.LoginRequiredInterceptor;
 import com.yc.communitys.controller.interceptor.LoginTicketInterceptor;
+import com.yc.communitys.controller.interceptor.MessageInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -25,9 +26,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Autowired
     private LoginRequiredInterceptor loginRequiredInterceptor;
-/*
+
     @Autowired
-    private MessageInterceptor messageInterceptor;*/
+    private MessageInterceptor messageInterceptor;
 
     // 注册接口
     @Override
@@ -50,9 +51,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addInterceptor(loginRequiredInterceptor)
                 .excludePathPatterns("/*/*.css", "/*/*.js", "/*/*.png", "/*/*.jpg", "/*/*.jpeg");
 
-//        // (不明确要拦截的路径)对于所有页面
-//        registry.addInterceptor(messageInterceptor)
-//                .excludePathPatterns("/*/*.css", "/*/*.js", "/*/*.png", "/*/*.jpg", "/*/*.jpeg");
-//
+        // (不明确要拦截的路径)对于所有页面
+        registry.addInterceptor(messageInterceptor)
+                .excludePathPatterns("/*/*.css", "/*/*.js", "/*/*.png", "/*/*.jpg", "/*/*.jpeg");
+
     }
 }

@@ -3,6 +3,8 @@ package com.yc.communitys.controller;
 
 import com.yc.communitys.annotation.LoginRequired;
 import com.yc.communitys.entity.User;
+import com.yc.communitys.service.FollowService;
+import com.yc.communitys.service.LikeService;
 import com.yc.communitys.service.UserService;
 import com.yc.communitys.util.CommunityConstant;
 import com.yc.communitys.util.CommunityUtil;
@@ -54,11 +56,11 @@ public class UserController implements CommunityConstant {
     @Autowired
     private HostHolder hostHolder;
 
-/*    @Autowired
+    @Autowired
     private LikeService likeService;
 
     @Autowired
-    private FollowService followService;*/
+    private FollowService followService;
 
     /**
      * @description: 页面跳转
@@ -185,10 +187,14 @@ public class UserController implements CommunityConstant {
     }
 
     /**
-     * 个人主页
-     * */
-    /*@LoginRequired
-    @RequestMapping(path = "/profile/{userId}", method = RequestMethod.GET)
+     * @description: 个人主页
+     * @author: yangchao
+     * @date: 2022/7/30 17:23
+     * @param: [userId, model]
+     * @return: java.lang.String
+     **/
+    @LoginRequired
+    @GetMapping("/profile/{userId}")
     public String getProfilePage(@PathVariable("userId") int userId, Model model) {
         User user = userService.findUserById(userId);
         if (user == null) {
@@ -215,6 +221,6 @@ public class UserController implements CommunityConstant {
         model.addAttribute("hasFollowed", hasFollowed);
 
         return "/site/profile";
-    }*/
+    }
 
 }

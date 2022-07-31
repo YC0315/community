@@ -41,13 +41,12 @@
                             <li class="d-inline ml-2">
                                 <a href="javascript:;" th:onclick="|like(this, 1, ${post.id}, ${post.userId}, ${post.id});|" class="text-primary">
                                     <!-- 赞1 // entityType: 1-帖子; 2-评论 // likeStatus==1: 1 表示点赞, 0 表示取消赞 (用整数表示更具有扩展性) -->
-                                    <b th:text="${likeStatus==1?'已赞':'赞'}">赞</b> <i th:text="${likeCount}">11</i>
+                                    <b th:text="${likeStatus==1?'已赞':'赞'}">赞</b>(<i th:text="${likeCount}">11</i>)
                                 </a>
                             </li>
                             <li class="d-inline ml-2">|</li>
                             <li class="d-inline ml-2">
-                                <a href="#replyform" class="text-primary">回帖
-                                    <span th:text="${post.commentCount}">7</span>
+                                <a href="#replyform" class="text-primary">回帖<span th:text="${post.commentCount}">7</span>
                                 </a>
                             </li>
                         </ul>

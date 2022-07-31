@@ -5,6 +5,7 @@ import com.yc.communitys.util.CommunityConstant;
 import com.yc.communitys.util.CommunityUtil;
 import com.yc.communitys.entity.User;
 import com.yc.communitys.service.UserService;
+import com.yc.communitys.util.RedisKeyUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -130,15 +131,14 @@ public class LoginController implements CommunityConstant {
          * 将验证码存入session改为Redis
          * session.setAttribute("kaptcha", text);
         */
-        session.setAttribute("kaptcha", text);
-        /*String kaptchaOwner = CommunityUtil.generateUUID();
+        String kaptchaOwner = CommunityUtil.generateUUID();
         Cookie cookie = new Cookie("kaptchaOwner", kaptchaOwner);
         cookie.setMaxAge(60);
         cookie.setPath(contextPath);
         response.addCookie(cookie);
         // 将验证码存入Redis
         String redisKey = RedisKeyUtil.getKaptchaKey(kaptchaOwner);
-        redisTemplate.opsForValue().set(redisKey, text, 60, TimeUnit.SECONDS);*/
+        redisTemplate.opsForValue().set(redisKey, text, 60, TimeUnit.SECONDS);
 
         // 将图片输出给浏览器，而不是通过return返回
         response.setContentType("/image/png");
@@ -159,17 +159,16 @@ public class LoginController implements CommunityConstant {
      **/
     @PostMapping("/login")
     public String login(String username, String password, String code, boolean rememberme,
-            Model model, HttpSession session, HttpServletResponse response) {
-        /**
-         * 1 检查验证码 (优化了)
-         * String kaptcha = (String) session.getAttribute("kaptcha");
-        */
-        String kaptcha = (String) session.getAttribute("kaptcha");
-        /*String kaptcha = null;
+            Model model, HttpSession session, HttpServletResponse response,
+            @CookieValue("kaptchaOwner") String kaptchaOwner) {
+
+        // String kaptcha = (String) session.getAttribute("kaptcha");
+        String kaptcha = null;
         if (StringUtils.isNotBlank(kaptchaOwner)) {
             String redisKey = RedisKeyUtil.getKaptchaKey(kaptchaOwner);
             kaptcha = (String) redisTemplate.opsForValue().get(redisKey);
-        }*/
+        }
+
         // 取出session中的验证码和前端传入的验证码进行比较
         if (StringUtils.isBlank(kaptcha)
                 || StringUtils.isBlank(code)

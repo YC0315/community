@@ -22,16 +22,15 @@ public interface CommentMapper {
      * @param limit 查询的记录数
      * @return 一个分页
      */
-    @Select({
+    /*@Select({
             "select id, user_id, entity_type, entity_id, target_id, content, status, create_time",
             "from comment",
             "where status=0 and entity_type = #{entityType} and entity_id = #{entityId}",
             "order by create_time asc",
             "limit #{offset}, #{limit}"
-    })
+    })*/
     List<Comment> selectCommentsByEntity(@Param("entityType") int entityType, @Param("entityId") int entityId,
                                          @Param("offset") int offset, @Param("limit") int limit);
-
 
     /**
      * 查询评论总数
@@ -40,11 +39,11 @@ public interface CommentMapper {
      * @param entityId
      * @return
      */
-    @Select({
+    /*@Select({
             "select count(id)",
             "from comment",
             "where status=0 and entity_type = #{entityType} and entity_id = #{entityId}"
-    })
+    })*/
     int selectCountByEntity(@Param("entityType") int entityType, @Param("entityId") int entityId);
 
     /**
@@ -53,10 +52,10 @@ public interface CommentMapper {
      * @param comment 评论对象
      * @return 影响的行数
      */
-    @Insert({
+    /*@Insert({
             "insert into comment (user_id, entity_type, entity_id, target_id, content, status, create_time)",
             "values (#{userId}, #{entityType}, #{entityId}, #{targetId}, #{content}, #{status}, #{createTime})"
-    })
+    })*/
     int insertComment(Comment comment);
 
 

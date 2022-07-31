@@ -4,10 +4,13 @@ import com.yc.communitys.entity.DiscussPost;
 import com.yc.communitys.entity.Page;
 import com.yc.communitys.entity.User;
 import com.yc.communitys.service.DiscussPostService;
+import com.yc.communitys.service.LikeService;
 import com.yc.communitys.service.UserService;
+import com.yc.communitys.util.CommunityConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -22,13 +25,16 @@ import java.util.Map;
  * @description: 访问主页
  */
 @Controller
-public class HomeController {
+public class HomeController implements CommunityConstant {
 
     @Autowired
     private DiscussPostService discussPostService;
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private LikeService likeService;
 
     @RequestMapping(path = "/index", method = RequestMethod.GET)
     public String getIndexPage(Model model, Page page){
@@ -49,11 +55,28 @@ public class HomeController {
                 int userId = post.getUserId();
                 User user = userService.findUserById(userId);
                 map.put("user", user);
+
+                // 添加点赞
+                long likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_POST, post.getId());
+                map.put("likeCount", likeCount);
+
                 discussPosts.add(map);
             }
         }
         // 将要展示的结果装到model中去
         model.addAttribute("discussPosts",discussPosts);
         return "/index";
+    }
+
+    /**
+     * @description: 错误页面的路径
+     * @author: yangchao
+     * @date: 2022/7/30 15:08
+     * @param: []
+     * @return: java.lang.String
+     **/
+    @GetMapping("/error")
+    public String getErrorPage() {
+        return "/error/500";
     }
 }
