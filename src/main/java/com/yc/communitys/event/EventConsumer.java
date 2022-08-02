@@ -5,6 +5,7 @@ import com.yc.communitys.entity.DiscussPost;
 import com.yc.communitys.entity.Event;
 import com.yc.communitys.entity.Message;
 import com.yc.communitys.service.DiscussPostService;
+import com.yc.communitys.service.ElasticsearchService;
 import com.yc.communitys.service.MessageService;
 import com.yc.communitys.util.CommunityConstant;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -19,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /*
- * @description: 消费者
+ * @description: 事件消费者
  * @author: yangchao
  * @date: 2022/7/31 15:25
  **/
@@ -27,6 +28,7 @@ import java.util.Map;
 public class EventConsumer implements CommunityConstant {
     // 记录日志
     private static final Logger logger = LoggerFactory.getLogger(EventConsumer.class);
+
     // 发消息最终是往消息表中插入数据
     @Autowired
     private MessageService messageService;
@@ -34,10 +36,10 @@ public class EventConsumer implements CommunityConstant {
     @Autowired
     private DiscussPostService discussPostService;
 
-/*    @Autowired
-    private ElasticsearchService elasticsearchService;*/
+    @Autowired
+    private ElasticsearchService elasticsearchService;
 
-    // 消费点赞，评论和关注这三个主题
+    // 消费点赞，评论和关注事件，三个主题
     @KafkaListener(topics = {TOPIC_COMMENT, TOPIC_LIKE, TOPIC_FOLLOW})
     // 消息的格式为ConsumerRecord
     public void handleCommentMessage(ConsumerRecord record) {
@@ -75,9 +77,7 @@ public class EventConsumer implements CommunityConstant {
         messageService.addMessage(message);
     }
 
-    /**
-     * 消费发帖事件
-     */
+    // 消费发帖事件
     @KafkaListener(topics = {TOPIC_PUBLISH})
     public void handlePublishMessage(ConsumerRecord record) {
         if (record == null || record.value() == null) {
@@ -90,9 +90,8 @@ public class EventConsumer implements CommunityConstant {
             logger.error("消息格式错误!");
             return;
         }
-
+        // 从事件的消息中得到帖子id, 从数据库中查到对应的帖子，然后将帖子存入ES服务器中即可
         DiscussPost post = discussPostService.findDiscussPostById(event.getEntityId());
-        //elasticsearchService.saveDiscussPost(post);
+        elasticsearchService.saveDiscussPost(post);
     }
-
 }

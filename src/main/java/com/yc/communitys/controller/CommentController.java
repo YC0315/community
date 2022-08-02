@@ -73,6 +73,7 @@ public class CommentController implements CommunityConstant {
         // 异步发布消息到topic 由消费者去消费不需要立即消费
         eventProducer.fireEvent(event);
 
+        // 先判断是否评论给帖子，还是评论给了评论
         if (comment.getEntityType() == ENTITY_TYPE_POST) {
             // 触发发帖事件
             event = new Event()
@@ -82,6 +83,7 @@ public class CommentController implements CommunityConstant {
                     .setEntityId(discussPostId);
             eventProducer.fireEvent(event);
         }
+
         // 重定向的帖子详情
         return "redirect:/discuss/detail/" + discussPostId;
     }

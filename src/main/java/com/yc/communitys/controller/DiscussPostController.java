@@ -1,10 +1,8 @@
 package com.yc.communitys.controller;
 
 
-import com.yc.communitys.entity.Comment;
-import com.yc.communitys.entity.DiscussPost;
-import com.yc.communitys.entity.Page;
-import com.yc.communitys.entity.User;
+import com.yc.communitys.entity.*;
+import com.yc.communitys.event.EventProducer;
 import com.yc.communitys.service.CommentService;
 import com.yc.communitys.service.DiscussPostService;
 import com.yc.communitys.service.LikeService;
@@ -37,9 +35,9 @@ public class DiscussPostController implements CommunityConstant {
 
     @Autowired
     private LikeService likeService;
-/*
+
     @Autowired
-    private EventProducer eventProducer;*/
+    private EventProducer eventProducer;
 
     /**
      * @description: 增加帖子
@@ -65,13 +63,14 @@ public class DiscussPostController implements CommunityConstant {
         post.setCreateTime(new Date());
         discussPostService.addDiscussPost(post);
 
-/*        // 触发发帖事件
+        // 新增帖子后触发发帖事件，发布到消息队列中
         Event event = new Event()
                 .setTopic(TOPIC_PUBLISH)
-                .setUserId(user.getId())
-                .setEntityType(ENTITY_TYPE_POST)
-                .setEntityId(post.getId());
-        eventProducer.fireEvent(event);*/
+                .setUserId(user.getId())  // 谁触发了事件
+                .setEntityType(ENTITY_TYPE_POST)  // 实体类型
+                .setEntityId(post.getId());  // 帖子id
+        // 触发事件
+        eventProducer.fireEvent(event);
 
         // 程序执行到这里, 默认成功
         // 在执行的过程中若报错, 报错的情况将来统一处理
