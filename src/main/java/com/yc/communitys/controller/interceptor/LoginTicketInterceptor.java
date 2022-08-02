@@ -19,8 +19,6 @@ import java.util.Date;
  * @description: 拦截器获取Ticket，获取用户暂存到ThreadLocal中
  * @author: yangchao
  * @date: 2022/7/27 14:00
- * @param:
- * @return:
  **/
 @Component
 public class LoginTicketInterceptor implements HandlerInterceptor {

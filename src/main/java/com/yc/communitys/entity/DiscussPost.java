@@ -1,6 +1,8 @@
 package com.yc.communitys.entity;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.DateFormat;
+import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
@@ -11,24 +13,29 @@ import java.util.Date;
  * @createTime: 2022-07-25  14:50
  * @description: 帖子实体类
  */
+// 确定实体类DiscussPost和ES服务器中的索引discusspost的对应关系
+@Document(indexName = "discusspost", type = "_doc", shards = 3, replicas = 2)
 public class DiscussPost {
 
+    // 确定实体中的属性和ES索引中的字段的对应关系
+    @Id
     private int id;
-
+    @Field(type = FieldType.Integer)
     private int userId;
-
+    // analyzer 分词器 searchAnalyzer分词器
+    @Field(type = FieldType.Text, analyzer = "ik_max_word", searchAnalyzer = "ik_smart")
     private String title;
-
+    @Field(type = FieldType.Text, analyzer = "ik_max_word", searchAnalyzer = "ik_smart")
     private String content;
-
+    @Field(type = FieldType.Integer)
     private int type;
-
+    @Field(type = FieldType.Integer)
     private int status;
-
+    @Field(type = FieldType.Date)
     private Date createTime;
-
+    @Field(type = FieldType.Integer)
     private int commentCount;
-
+    @Field(type = FieldType.Double)
     private double score;
 
     @Override
