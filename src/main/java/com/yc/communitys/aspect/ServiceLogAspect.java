@@ -18,8 +18,6 @@ import java.util.Date;
  * @description: 使用AOP在调用Service层方法之前统一记录日志
  * @author: yangchao
  * @date: 2022/7/30 15:37
- * @param:
- * @return:
  **/
 @Component
 @Aspect

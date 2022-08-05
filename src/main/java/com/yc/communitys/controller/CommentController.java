@@ -8,7 +8,9 @@ import com.yc.communitys.service.CommentService;
 import com.yc.communitys.service.DiscussPostService;
 import com.yc.communitys.util.CommunityConstant;
 import com.yc.communitys.util.HostHolder;
+import com.yc.communitys.util.RedisKeyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +38,9 @@ public class CommentController implements CommunityConstant {
 
     @Autowired
     private EventProducer eventProducer;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
     /**
      * @description: 新增评论
      * @author: yangchao
@@ -82,6 +87,11 @@ public class CommentController implements CommunityConstant {
                     .setEntityType(ENTITY_TYPE_POST)
                     .setEntityId(discussPostId);
             eventProducer.fireEvent(event);
+
+            // 将帖子放入redis中，等待计算帖子分数
+            String redisKey = RedisKeyUtil.getPostScoreKey();
+            // 将帖子的id存入redis中的set中，这样是有序且唯一的
+            redisTemplate.opsForSet().add(redisKey, discussPostId);
         }
 
         // 重定向的帖子详情

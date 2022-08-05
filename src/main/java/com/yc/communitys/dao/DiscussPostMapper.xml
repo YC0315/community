@@ -26,8 +26,13 @@
         <if test="userId!=0">
             and user_id = #{userId}
         </if>
-        <!--  排序：type=1表示置顶帖子, 最新创建的排到前面      -->
-        order by type desc, create_time desc
+        <if test="orderMode==0">
+            order by type desc,create_time desc
+        </if>
+        <if test="orderMode==1">
+            order by type desc, score desc,create_Time desc
+        </if>
+        <!--  排序：type=1表示置顶帖子, 最新创建的排到前面-->
         <!--   分页查询  offset = (current - 1) * limit  即 当前页的起始行 = (当前页-1)*每页显示上限记录数  -->
         limit #{offset}, #{limit}
     </select>

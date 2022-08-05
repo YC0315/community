@@ -12,9 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 
-/**
- * @author Jungle
- */
 @Component
 public class LoginRequiredInterceptor implements HandlerInterceptor {
 

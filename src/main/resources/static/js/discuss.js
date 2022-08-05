@@ -64,7 +64,7 @@ function setDelete() {
         function (data) {
             data = $.parseJSON(data);
             if (data.code == 0) {
-                location.href = CONTEXT_PATH + "/";
+                location.href = CONTEXT_PATH + "/index";
             } else {
                 alert(data.msg);
             }

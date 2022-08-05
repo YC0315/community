@@ -23,7 +23,8 @@ public interface DiscussPostMapper {
      **/
     List<DiscussPost> selectDiscussPosts(@Param("userId") int userId,
                                          @Param("offset") int offset,
-                                         @Param("limit") int limit);
+                                         @Param("limit") int limit,
+                                         @Param("orderMode") int orderMode);
 
     /**
      * @description: 查询一共多少条数据，@Param("userId")定义别名

@@ -10,7 +10,9 @@ import com.yc.communitys.service.UserService;
 import com.yc.communitys.util.CommunityConstant;
 import com.yc.communitys.util.CommunityUtil;
 import com.yc.communitys.util.HostHolder;
+import com.yc.communitys.util.RedisKeyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +40,9 @@ public class DiscussPostController implements CommunityConstant {
 
     @Autowired
     private EventProducer eventProducer;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     /**
      * @description: 增加帖子
@@ -71,6 +76,12 @@ public class DiscussPostController implements CommunityConstant {
                 .setEntityId(post.getId());  // 帖子id
         // 触发事件
         eventProducer.fireEvent(event);
+
+        // 将帖子放入redis中，等待计算帖子分数
+        String redisKey = RedisKeyUtil.getPostScoreKey();
+        // 将帖子的id存入redis中的set中，这样是有序且唯一的
+        redisTemplate.opsForSet().add(redisKey, post.getId());
+
 
         // 程序执行到这里, 默认成功
         // 在执行的过程中若报错, 报错的情况将来统一处理
@@ -175,5 +186,62 @@ public class DiscussPostController implements CommunityConstant {
         model.addAttribute("comments", commentVoList);
         return "/site/discuss-detail";
     }
+
+    // 置顶
+    @PostMapping(path = "/top")
+    @ResponseBody
+    public String setTop(int id) {
+        discussPostService.updateType(id, 1);
+
+        // 触发发帖事件,将帖子的状态同步到服务器
+        Event event = new Event()
+                .setTopic(TOPIC_PUBLISH)
+                .setUserId(hostHolder.getUser().getId())
+                .setEntityType(ENTITY_TYPE_POST)
+                .setEntityId(id);
+        eventProducer.fireEvent(event);
+
+        return CommunityUtil.getJSONString(0);
+    }
+
+    // 加精
+    @PostMapping("/wonderful")
+    @ResponseBody
+    public String setWonderful(int id) {
+        discussPostService.updateStatus(id, 1);
+
+        // 触发发帖事件
+        Event event = new Event()
+                .setTopic(TOPIC_PUBLISH)
+                .setUserId(hostHolder.getUser().getId())
+                .setEntityType(ENTITY_TYPE_POST)
+                .setEntityId(id);
+        eventProducer.fireEvent(event);
+
+        // 将帖子放入redis中，等待计算帖子分数
+        String redisKey = RedisKeyUtil.getPostScoreKey();
+        // 将帖子的id存入redis中的set中，这样是有序且唯一的
+        redisTemplate.opsForSet().add(redisKey, id);
+
+        return CommunityUtil.getJSONString(0);
+    }
+
+    // 删除
+    @PostMapping(path = "/delete")
+    @ResponseBody
+    public String setDelete(int id) {
+        discussPostService.updateStatus(id, 2);
+
+        // 触发删帖事件
+        Event event = new Event()
+                .setTopic(TOPIC_DELETE)
+                .setUserId(hostHolder.getUser().getId())
+                .setEntityType(ENTITY_TYPE_POST)
+                .setEntityId(id);
+        eventProducer.fireEvent(event);
+
+        return CommunityUtil.getJSONString(0);
+    }
+
 
 }

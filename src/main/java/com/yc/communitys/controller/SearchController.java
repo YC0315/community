@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-// 展现
+// 处理搜索请求，展现结果
 @Controller
 public class SearchController implements CommunityConstant {
     // 查询帖子

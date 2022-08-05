@@ -24,7 +24,7 @@ public class DiscussPostsMapperTest {
     @Test
     public void testSelectDiscussPost(){
         // 查询帖子分页结果
-        List<DiscussPost> discussPosts = discussPostMapper.selectDiscussPosts(0, 0, 10);
+        List<DiscussPost> discussPosts = discussPostMapper.selectDiscussPosts(0, 0, 10, 0);
         for (DiscussPost discussPost : discussPosts) {
             System.out.println(discussPost);
         }

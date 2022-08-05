@@ -1,9 +1,6 @@
 package com.yc.communitys.config;
 
-import com.yc.communitys.controller.interceptor.AlphaInterceptor;
-import com.yc.communitys.controller.interceptor.LoginRequiredInterceptor;
-import com.yc.communitys.controller.interceptor.LoginTicketInterceptor;
-import com.yc.communitys.controller.interceptor.MessageInterceptor;
+import com.yc.communitys.controller.interceptor.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -23,12 +20,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
     // 注入获取凭证和用户信息的拦截器
     @Autowired
     private LoginTicketInterceptor loginTicketInterceptor;
-
-    @Autowired
-    private LoginRequiredInterceptor loginRequiredInterceptor;
+    // 使用springsecurity替代
+/*    @Autowired
+    private LoginRequiredInterceptor loginRequiredInterceptor;*/
 
     @Autowired
     private MessageInterceptor messageInterceptor;
+
+    @Autowired
+    private DataInterceptor dataInterceptor;
 
     // 注册接口
     @Override
@@ -47,12 +47,16 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/*/*.css", "/*/*.js", "/*/*.png", "/*/*.jpg", "/*/*.jpeg");
 
         // (不明确要拦截的路径)对于所有页面-需要登录,排除静态资源
-        registry
-                .addInterceptor(loginRequiredInterceptor)
-                .excludePathPatterns("/*/*.css", "/*/*.js", "/*/*.png", "/*/*.jpg", "/*/*.jpeg");
+//        registry
+//                .addInterceptor(loginRequiredInterceptor)
+//                .excludePathPatterns("/*/*.css", "/*/*.js", "/*/*.png", "/*/*.jpg", "/*/*.jpeg");
 
         // (不明确要拦截的路径)对于所有页面
         registry.addInterceptor(messageInterceptor)
+                .excludePathPatterns("/*/*.css", "/*/*.js", "/*/*.png", "/*/*.jpg", "/*/*.jpeg");
+
+        // (不明确要拦截的路径)对于所有页面
+        registry.addInterceptor(dataInterceptor)
                 .excludePathPatterns("/*/*.css", "/*/*.js", "/*/*.png", "/*/*.jpg", "/*/*.jpeg");
 
     }

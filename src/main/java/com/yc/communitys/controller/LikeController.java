@@ -7,7 +7,9 @@ import com.yc.communitys.service.LikeService;
 import com.yc.communitys.util.CommunityConstant;
 import com.yc.communitys.util.CommunityUtil;
 import com.yc.communitys.util.HostHolder;
+import com.yc.communitys.util.RedisKeyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +38,9 @@ public class LikeController implements CommunityConstant {
 
     @Autowired
     private EventProducer eventProducer;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @PostMapping("/like")
     @ResponseBody
@@ -67,6 +72,13 @@ public class LikeController implements CommunityConstant {
                     .setData("postId", postId);
             // 发送消息到主题
             eventProducer.fireEvent(event);
+        }
+
+        if(entityType == ENTITY_TYPE_POST){
+            // 将帖子放入redis中，等待计算帖子分数
+            String redisKey = RedisKeyUtil.getPostScoreKey();
+            // 将帖子的id存入redis中的set中，这样是有序且唯一的
+            redisTemplate.opsForSet().add(redisKey, postId);
         }
         return CommunityUtil.getJSONString(0, null, map);
     }

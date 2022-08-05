@@ -27,8 +27,10 @@ public class RedisKeyUtil {
     // 从缓存中取值
     private static final String PREFIX_USER = "user";
 
+    // 独立用户
     private static final String PREFIX_UV = "uv";
 
+    // 日活跃用户
     private static final String PREFIX_DAU = "dau";
 
     private static final String PREFIX_POST = "post";
@@ -75,53 +77,27 @@ public class RedisKeyUtil {
         return PREFIX_USER + SPLIT + userId;
     }
 
-    /**
-     * 单日UV
-     *
-     * @param date
-     * @return
-     */
+    // 单日UV
     public static String getUVKey(String date) {
         return PREFIX_UV + SPLIT + date;
     }
 
-    /**
-     * 区间UV
-     *
-     * @param startDate
-     * @param endDate
-     * @return
-     */
+    // 区间UV
     public static String getUVKey(String startDate, String endDate) {
         return PREFIX_UV + SPLIT + startDate + SPLIT + endDate;
     }
 
-    /**
-     * 单日DAU
-     *
-     * @param date
-     * @return
-     */
+    // 单日DAU
     public static String getDAUKey(String date) {
         return PREFIX_DAU + SPLIT + date;
     }
 
-    /**
-     * 区间DAU
-     *
-     * @param startDate
-     * @param endDate
-     * @return
-     */
+    // 区间DAU
     public static String getDAUKey(String startDate, String endDate) {
         return PREFIX_DAU + SPLIT + startDate + SPLIT + endDate;
     }
 
-    /**
-     * 帖子分数
-     *
-     * @return
-     */
+    // 统计帖子分数的key
     public static String getPostScoreKey() {
         return PREFIX_POST + SPLIT + "score";
     }

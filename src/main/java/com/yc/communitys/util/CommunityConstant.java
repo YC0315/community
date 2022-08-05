@@ -44,11 +44,12 @@ public interface CommunityConstant {
 
     /** 主题：分享 */
     String TOPIC_SHARE = "share";
-    /** 删除 */
+    /** 删除帖子 */
     String TOPIC_DELETE = "delete";
 
     /** 系统用户id */
     int SYSTEM_USER_ID = 1;
+
 
     /** 权限：普通用户 */
     String AUTHORITY_USER = "user";

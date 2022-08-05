@@ -51,6 +51,22 @@ spring:
   main:
     allow-bean-definition-overriding: true
 
+  # Quartz配置
+  quartz:
+    job-store-type: jdbc
+    scheduler-name: communityScheduler
+    properties:
+      org:
+        quartz:
+          scheduler:
+            instanceId: AUTO
+          jobStore:
+            class: org.quartz.impl.jdbcjobstore.JobStoreTX
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+            isClustered: true
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 5
 
 #如果xml文件跟mapper在同一个目录下，则application.yml中不需要配置下面这个。
 #mybatis.mapper-locations=classpath:mapper/*.xml
@@ -61,6 +77,14 @@ mybatis:
     use-generated-keys: true
     # 设置下划线和首字母大写驼峰匹配
     map-underscore-to-camel-case: true
+
+# caffeine配置，本地缓存，缓存帖子列表
+caffeine:
+  posts:
+    # 缓存15页
+    max-size: 15
+    # 缓存到期时间，设置成180秒
+    expire-seconds: 180
 
 logging:
   level:

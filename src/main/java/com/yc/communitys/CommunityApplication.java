@@ -6,10 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import javax.annotation.PostConstruct;
 
-/**
- * 程序的入口的注解
- * @author yangchao
- */
 @SpringBootApplication
 @MapperScan(basePackages = {"com.yc.communitys.dao"})
 public class CommunityApplication {
@@ -25,5 +21,4 @@ public class CommunityApplication {
 		// 启动Tomcat，创建容器
 		SpringApplication.run(CommunityApplication.class, args);
 	}
-
 }
