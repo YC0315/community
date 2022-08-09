@@ -46,7 +46,9 @@ public class LikeService {
                     operations.opsForSet().remove(entityLikeKey, userId);
                     operations.opsForValue().decrement(userLikeKey);
                 } else {
-                    // 否则点赞
+                    // 否则点赞.
+                    // 点赞用的是Redis.set()结构存放点赞的用户id,
+                    // ADD 命令向名为 entityLikeKey 的set集合插入userId。
                     operations.opsForSet().add(entityLikeKey, userId);
                     operations.opsForValue().increment(userLikeKey);
                 }

@@ -40,6 +40,9 @@ public class FollowService implements CommunityConstant {
                 // 开启事务
                 operations.multi();
 
+                // 传入的是key value score.
+                // 关注使用的是Redis的有序集合zset可以做到根据关注的时间有序的取出列表
+                // zadd key value score.在名为key的有序集合中 添加vlaue 元素及其 score 值
                 operations.opsForZSet().add(followeeKey, entityId, System.currentTimeMillis());
                 operations.opsForZSet().add(followerKey, userId, System.currentTimeMillis());
 

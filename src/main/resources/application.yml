@@ -86,6 +86,20 @@ caffeine:
     # 缓存到期时间，设置成180秒
     expire-seconds: 180
 
+#禁用Elasticsearch运行状况检查
+management:
+  health:
+    elasticsearch:
+      enabled: false
+  #actuator项目监控配置
+  endpoints:
+    web:
+      exposure:
+        # 暴露所有的端点
+        include: '*'
+        # 要排除的端点
+        exclude: info,caches
+
 logging:
   level:
     org.springframework.data.convert.CustomConversions: ERROR

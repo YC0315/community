@@ -53,6 +53,8 @@ public class RedisKeyUtil {
     }
 
     // 某个用户关注的实体 followee:userId:entityType -> zset(entityId, now)
+    // entityType为实体类型，按照类型分类，关注的是人还是帖子，zset中存的就是实体的id和分值
+    // zadd key value score.在名为key的有序集合中 添加vlaue 元素及其 score 值
     public static String getFolloweeKey(int userId, int entityType) {
         return PREFIX_FOLLOWEE + SPLIT + userId + SPLIT + entityType;
     }
