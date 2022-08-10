@@ -41,7 +41,7 @@ public class EventConsumer implements CommunityConstant {
 
     // 消费点赞，评论和关注事件，三个主题
     @KafkaListener(topics = {TOPIC_COMMENT, TOPIC_LIKE, TOPIC_FOLLOW})
-    // 消息的格式为ConsumerRecord
+    // 消息队列中存放的消息的格式为ConsumerRecord
     public void handleCommentMessage(ConsumerRecord record) {
         if (record == null || record.value() == null) {
             logger.error("消息的内容为空!");
@@ -74,6 +74,7 @@ public class EventConsumer implements CommunityConstant {
             }
         }
         message.setContent(JSONObject.toJSONString(content));
+        // 消费消息就是将数据插入到数据库中去
         messageService.addMessage(message);
     }
 
